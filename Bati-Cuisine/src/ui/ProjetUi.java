@@ -12,6 +12,7 @@ public class ProjetUi {
 
     private final Scanner scanner = new Scanner(System.in);
     private final IProjetService projetService = new ProjetService();
+    private MaterielUi materielUi = new MaterielUi();
 
     public void addProjet(Client client) {
         System.out.print("Entrez le nom du projet : ");
@@ -22,7 +23,7 @@ public class ProjetUi {
         Projet projet =  new Projet(nomProjet,surface,client);
         Projet addProjet =projetService.addProjet(projet);
         if(addProjet != null) {
-            System.out.println("projet added!!");
+            materielUi.ajouterMateriaux(projet);
         }else{
             System.out.println("projet not added!!");
         }
