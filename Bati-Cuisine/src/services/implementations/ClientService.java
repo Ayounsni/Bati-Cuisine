@@ -9,7 +9,7 @@ import java.util.UUID;
 
 public class ClientService implements IClientService {
 
-    private IClientRepository clientRepository;
+    private final IClientRepository clientRepository;
 
     public ClientService() {
         this.clientRepository = new ClientRepository();

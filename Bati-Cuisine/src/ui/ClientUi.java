@@ -10,6 +10,7 @@ public class ClientUi {
 
     private final Scanner scanner = new Scanner(System.in);
     private final IClientService clientService = new ClientService();
+    private ProjetUi projetUi = new ProjetUi();
 
     public void manageClient() {
         System.out.println("--- Recherche de client ---");
@@ -48,7 +49,7 @@ public class ClientUi {
             System.out.print("Souhaitez-vous continuer avec ce client ? (oui/non) : ");
             String response = scanner.nextLine();
             if (response.equalsIgnoreCase("oui")) {
-                System.out.println("Vous continuez avec le client.");
+                projetUi.addProjet(client);
             } else {
                 System.out.println("Retour au menu principal.");
             }

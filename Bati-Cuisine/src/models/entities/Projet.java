@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static models.enums.EtatProjet.ENCOURS;
+
 public class Projet {
     private UUID id;
     private String nom;
@@ -27,6 +29,16 @@ public class Projet {
         this.surface = surface;
         this.coutTotal = coutTotal;
         this.etatProjet = etatProjet;
+        this.client = client;
+        this.composants = new ArrayList<>();
+    }
+
+    public Projet(String nom, float surface, Client client) {
+        this.id = UUID.randomUUID();
+        this.nom = nom;
+        this.surface = surface;
+        this.coutTotal = null;
+        this.etatProjet = ENCOURS;
         this.client = client;
         this.composants = new ArrayList<>();
     }
