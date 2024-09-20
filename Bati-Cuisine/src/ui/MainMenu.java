@@ -11,13 +11,15 @@ public class MainMenu {
 
     private final DbFunctions db = DbFunctions.getInstance();
 
+    private final ClientUi clientUi = new ClientUi();
+
 
     public void showMainMenu() {
         boolean running = true;
 
 
         while (running) {
-            System.out.println("=== Menu Principal ===");
+            System.out.println("\n=== Menu Principal ===");
             System.out.println("    1. Créer un nouveau projet");
             System.out.println("    2. Afficher les projets existants");
             System.out.println("    3. Calculer le coût d'un projet");
@@ -30,7 +32,7 @@ public class MainMenu {
 
             switch (mainChoice) {
                 case 1:
-
+                    clientUi.manageClient();
                     break;
                 case 2:
 
