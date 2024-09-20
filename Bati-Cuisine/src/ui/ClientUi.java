@@ -36,7 +36,7 @@ public class ClientUi {
 
     private void searchExistingClient() {
         System.out.print("Entrez le nom du client : ");
-        String clientName = scanner.nextLine();
+        String clientName = scanner.nextLine().toLowerCase();
 
         Client client = clientService.findClientByName(clientName);
         if (client != null) {
@@ -48,7 +48,6 @@ public class ClientUi {
             System.out.print("Souhaitez-vous continuer avec ce client ? (oui/non) : ");
             String response = scanner.nextLine();
             if (response.equalsIgnoreCase("oui")) {
-                // Logique pour continuer avec le client
                 System.out.println("Vous continuez avec le client.");
             } else {
                 System.out.println("Retour au menu principal.");
@@ -62,7 +61,7 @@ public class ClientUi {
         System.out.println("--- Ajouter un nouveau client ---");
 
         System.out.print("Entrez le nom : ");
-        String nom = scanner.nextLine();
+        String nom = scanner.nextLine().toLowerCase();
 
         System.out.print("Entrez l'adresse : ");
         String adresse = scanner.nextLine();
