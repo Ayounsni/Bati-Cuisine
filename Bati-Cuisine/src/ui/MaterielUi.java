@@ -18,7 +18,6 @@ public class MaterielUi {
         while (ajouterAutre) {
             System.out.println("--- Ajout des matériaux ---");
 
-            // Saisie des données pour un matériau
             System.out.print("Entrez le nom du matériau : ");
             String nom = scanner.nextLine();
 
