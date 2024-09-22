@@ -38,5 +38,20 @@ public class ProjetRepository implements IProjetRepository {
             return null;
         }
     }
+    @Override
+    public boolean updateMargeBeneficiaire(Projet projet, float margeBeneficiaire) {
+        String sql = "UPDATE projets SET margeBeneficiaire = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setFloat(1, margeBeneficiaire);
+            statement.setObject(2, projet.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }

@@ -39,6 +39,8 @@ public class MainDOeuvreUi {
             scanner.nextLine();
 
             MainDOeuvre mainDOeuvre = new MainDOeuvre(nom, 1, projet, tauxHoraire, heuresTravail, productiviteOuvrier);
+            projet.ajouterMainDOeuvre(mainDOeuvre);
+            projet.ajouterComposant(mainDOeuvre);
 
             MainDOeuvre addedMainDOeuvre = mainDOeuvreService.addMainDOeuvre(mainDOeuvre);
 

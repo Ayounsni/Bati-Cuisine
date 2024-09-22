@@ -4,13 +4,14 @@ import models.entities.Materiel;
 import models.entities.Projet;
 import repository.implementations.MaterielRepository;
 import repository.interfaces.IMaterielRepository;
+import services.interfaces.IComposantService;
 import services.interfaces.IMaterielService;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.List;
 
-public class MaterielService implements IMaterielService {
+public class MaterielService implements IMaterielService, IComposantService<Materiel> {
 
     private IMaterielRepository materielRepository ;
 
@@ -25,13 +26,13 @@ public class MaterielService implements IMaterielService {
     }
     @Override
     public BigDecimal calculerCoutTotal(Materiel materiel) {
-        // Quantité * Coût unitaire * Qualité + Transport
+
         BigDecimal quantite = BigDecimal.valueOf(materiel.getQuantite());
         BigDecimal coutUnitaire = materiel.getCoutUnitaire();
-        BigDecimal qualite = BigDecimal.valueOf(materiel.getCoefficientQualite()); // Conversion de float en BigDecimal
-        BigDecimal transport = materiel.getCoutTransport(); // Coût de transport fixe
+        BigDecimal qualite = BigDecimal.valueOf(materiel.getCoefficientQualite());
+        BigDecimal transport = materiel.getCoutTransport();
 
-        // Calcul du coût total
+
         BigDecimal coutTotal = quantite.multiply(coutUnitaire)
                 .multiply(qualite)
                 .add(transport)
@@ -40,19 +41,7 @@ public class MaterielService implements IMaterielService {
         return coutTotal;
     }
 
-//    public BigDecimal calculerTotalMateriel(Materiel materiel , Projet projet) {
-//        List<Materiel> materielsDuProjet = projet.getMateriels();
-//        List<BigDecimal> totalcouts = new ArrayList<>();
-//
-//        for (Materiel materiel : materielsDuProjet) {
-//            BigDecimal total =calculerCoutTotal(materiel);
-//            totalcouts.add(total);
-//
-//        }
-//
-//
-//
-//    return }
+
     @Override
     public BigDecimal calculerTotalMateriel(Projet projet) {
     List<Materiel> materielsDuProjet = projet.getMateriels();
@@ -60,7 +49,7 @@ public class MaterielService implements IMaterielService {
     return materielsDuProjet.stream()
             .map(this::calculerCoutTotal)
             .reduce(BigDecimal.ZERO, BigDecimal::add);
-}
+    }
 
 
 }

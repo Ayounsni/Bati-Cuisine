@@ -17,6 +17,7 @@ public class Projet {
     private EtatProjet etatProjet;
     private float margeBeneficiaire;
     private Client client;
+    private final List<Composant> composants ;
     private final List<MainDOeuvre> mainDOeuvres;
     private final List<Materiel> materiels;
 
@@ -24,6 +25,7 @@ public class Projet {
     public Projet() {
         this.mainDOeuvres = new ArrayList<>();
         this.materiels = new ArrayList<>();
+        this.composants = new ArrayList<>();
     }
 
     public Projet(String nom, float surface, BigDecimal coutTotal, EtatProjet etatProjet,float margeBeneficiaire, Client client) {
@@ -36,6 +38,7 @@ public class Projet {
         this.client = client;
         this.mainDOeuvres = new ArrayList<>();
         this.materiels = new ArrayList<>();
+        this.composants = new ArrayList<>();
     }
 
     public Projet(String nom, float surface, Client client) {
@@ -48,6 +51,7 @@ public class Projet {
         this.client = client;
         this.mainDOeuvres = new ArrayList<>();
         this.materiels = new ArrayList<>();
+        this.composants = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -119,6 +123,12 @@ public class Projet {
 
     public void ajouterMainDOeuvre(MainDOeuvre mainDOeuvre) {
         this.mainDOeuvres.add(mainDOeuvre);
+    }
+    public List<Composant> getComposants() {
+        return composants;
+    }
+    public void ajouterComposant(Composant composant) {
+        this.composants.add(composant);
     }
 }
 

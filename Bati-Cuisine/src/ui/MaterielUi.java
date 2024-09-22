@@ -3,14 +3,17 @@ package ui;
 import models.entities.Materiel;
 import models.entities.Projet;
 import services.implementations.MaterielService;
+import services.interfaces.IComposantService;
 import services.interfaces.IMaterielService;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 
 public class MaterielUi {
     private final Scanner scanner = new Scanner(System.in);
     private final IMaterielService materielService = new MaterielService();
+    private final IComposantService<Materiel> composantService = new MaterielService();
 
     public void ajouterMateriaux(Projet projet) {
         boolean ajouterAutre = true;
@@ -39,6 +42,7 @@ public class MaterielUi {
 
             Materiel materiel = new Materiel(nom, 1, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
             projet.ajouterMateriel(materiel);
+            projet.ajouterComposant(materiel);
 
             Materiel addedMateriel = materielService.addMateriel(materiel);
 
@@ -51,6 +55,15 @@ public class MaterielUi {
             System.out.print("Voulez-vous ajouter un autre matériau ? (y/n) : ");
             String reponse = scanner.nextLine();
             ajouterAutre = reponse.equalsIgnoreCase("y");
+        }
+    }
+
+    public void listMateriel(Projet projet) {
+        List<Materiel> materielsDuProjet = projet.getMateriels();
+        for (Materiel materiel : materielsDuProjet) {
+            System.out.println("-" + materiel.getNom() + ":" + composantService.calculerCoutTotal(materiel) +"€ (quantité : " +
+                    materiel.getQuantite() + "m², coût unitaire :" + materiel.getCoutUnitaire() + "€/m², qualité :"+
+                    materiel.getCoefficientQualite()+  ", transport :" + materiel.getCoutTransport() + "€)");
         }
     }
 }

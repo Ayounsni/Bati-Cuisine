@@ -7,6 +7,5 @@ import java.math.BigDecimal;
 
 public interface IMaterielService {
     Materiel addMateriel(Materiel materiel);
-    BigDecimal calculerCoutTotal(Materiel materiel);
     BigDecimal calculerTotalMateriel( Projet projet);
 }
