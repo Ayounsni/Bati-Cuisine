@@ -1,7 +1,6 @@
 package ui;
 
 import models.entities.MainDOeuvre;
-import models.entities.Materiel;
 import models.entities.Projet;
 import services.implementations.MainDOeuvreService;
 import services.implementations.MaterielService;
@@ -32,15 +31,14 @@ public class MainDOeuvreUi {
             System.out.print("Entrez le nombre d'heures travaillées : ");
             float heuresTravail = scanner.nextFloat();
 
-            System.out.print("Entrez le taux de TVA du main d'oeuvre (en %) : ");
-            float tauxTVA = scanner.nextFloat();
+
 
             System.out.print("Entrez le facteur de productivité (1.0 = standard, > 1.0 = haute productivité) : ");
             float productiviteOuvrier = scanner.nextFloat();
 
             scanner.nextLine();
 
-            MainDOeuvre mainDOeuvre = new MainDOeuvre(nom, tauxTVA, projet, tauxHoraire, heuresTravail, productiviteOuvrier);
+            MainDOeuvre mainDOeuvre = new MainDOeuvre(nom, 1, projet, tauxHoraire, heuresTravail, productiviteOuvrier);
 
             MainDOeuvre addedMainDOeuvre = mainDOeuvreService.addMainDOeuvre(mainDOeuvre);
 
@@ -50,9 +48,9 @@ public class MainDOeuvreUi {
                 System.out.println("Erreur lors de l'ajout de la main-d'œuvre.");
             }
 
-            System.out.print("Voulez-vous ajouter un autre type de main-d'œuvre ? (y/n) : ");
+            System.out.print("Voulez-vous ajouter un autre type de main-d'œuvre ? (oui/non) : ");
             String reponse = scanner.nextLine();
-            ajouterAutre = reponse.equalsIgnoreCase("y");
+            ajouterAutre = reponse.equalsIgnoreCase("oui");
         }
     }
 }

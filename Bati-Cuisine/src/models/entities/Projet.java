@@ -15,22 +15,27 @@ public class Projet {
     private float surface;
     private BigDecimal coutTotal;
     private EtatProjet etatProjet;
+    private float margeBeneficiaire;
     private Client client;
-    private final List<Composant> composants;
+    private final List<MainDOeuvre> mainDOeuvres;
+    private final List<Materiel> materiels;
 
 
     public Projet() {
-        this.composants = new ArrayList<>();
+        this.mainDOeuvres = new ArrayList<>();
+        this.materiels = new ArrayList<>();
     }
 
-    public Projet(String nom, float surface, BigDecimal coutTotal, EtatProjet etatProjet, Client client) {
+    public Projet(String nom, float surface, BigDecimal coutTotal, EtatProjet etatProjet,float margeBeneficiaire, Client client) {
         this.id = UUID.randomUUID();
         this.nom = nom;
         this.surface = surface;
         this.coutTotal = coutTotal;
         this.etatProjet = etatProjet;
+        this.margeBeneficiaire = margeBeneficiaire;
         this.client = client;
-        this.composants = new ArrayList<>();
+        this.mainDOeuvres = new ArrayList<>();
+        this.materiels = new ArrayList<>();
     }
 
     public Projet(String nom, float surface, Client client) {
@@ -39,8 +44,10 @@ public class Projet {
         this.surface = surface;
         this.coutTotal = null;
         this.etatProjet = ENCOURS;
+        this.margeBeneficiaire = 1;
         this.client = client;
-        this.composants = new ArrayList<>();
+        this.mainDOeuvres = new ArrayList<>();
+        this.materiels = new ArrayList<>();
     }
 
     public UUID getId() {
@@ -82,6 +89,12 @@ public class Projet {
     public void setEtatProjet(EtatProjet etatProjet) {
         this.etatProjet = etatProjet;
     }
+    public float getMargeBeneficiaire() {
+        return margeBeneficiaire;
+    }
+    public void setMargeBeneficiaire(float margeBeneficiaire) {
+        this.margeBeneficiaire = margeBeneficiaire;
+    }
 
     public Client getClient() {
         return client;
@@ -91,8 +104,21 @@ public class Projet {
         this.client = client;
     }
 
-    public List<Composant> getComposants() {
-        return composants;
+    public List<MainDOeuvre> getMainDOeuvres() {
+        return mainDOeuvres;
+    }
+
+    public void ajouterMateriel(Materiel materiel) {
+        this.materiels.add(materiel);
+    }
+
+
+    public List<Materiel> getMateriels() {
+        return materiels;
+    }
+
+    public void ajouterMainDOeuvre(MainDOeuvre mainDOeuvre) {
+        this.mainDOeuvres.add(mainDOeuvre);
     }
 }
 

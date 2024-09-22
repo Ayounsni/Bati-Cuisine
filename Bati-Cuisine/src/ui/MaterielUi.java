@@ -30,15 +30,15 @@ public class MaterielUi {
             System.out.print("Entrez le coût de transport de ce matériau (€) : ");
             BigDecimal coutTransport = scanner.nextBigDecimal();
 
-            System.out.print("Entrez le taux de TVA du matériau (en %) : ");
-            float tauxTVA = scanner.nextFloat();
+
 
             System.out.print("Entrez le coefficient de qualité du matériau (1.0 = standard, > 1.0 = haute qualité) : ");
             float coefficientQualite = scanner.nextFloat();
 
             scanner.nextLine();
 
-            Materiel materiel = new Materiel(nom, tauxTVA, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
+            Materiel materiel = new Materiel(nom, 1, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
+            projet.ajouterMateriel(materiel);
 
             Materiel addedMateriel = materielService.addMateriel(materiel);
 

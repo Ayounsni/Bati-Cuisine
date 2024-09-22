@@ -18,7 +18,7 @@ public class ProjetRepository implements IProjetRepository {
 
     @Override
     public Projet addProjet(Projet projet) {
-        String query = "INSERT INTO projets(id, nom, surface, couttotal, etatprojet, clientid) VALUES (?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO projets(id, nom, surface, couttotal, etatprojet,margeBeneficiaire, clientid) VALUES (?,?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = db.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(query);
@@ -27,7 +27,8 @@ public class ProjetRepository implements IProjetRepository {
             statement.setFloat(3, projet.getSurface());
             statement.setObject(4, projet.getCoutTotal());
             statement.setObject(5, projet.getEtatProjet().name(), java.sql.Types.OTHER);
-            statement.setObject(6, projet.getClient().getId());
+            statement.setFloat(6, projet.getMargeBeneficiaire());
+            statement.setObject(7, projet.getClient().getId());
 
             statement.executeUpdate();
             return projet;
