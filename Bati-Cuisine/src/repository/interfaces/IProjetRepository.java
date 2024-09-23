@@ -3,6 +3,7 @@ package repository.interfaces;
 import models.entities.Projet;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public interface IProjetRepository {
@@ -12,4 +13,5 @@ public interface IProjetRepository {
     boolean updateTva(Projet projet, float tva);
     boolean updateCoutTotal(Projet projet, BigDecimal coutTotal);
     Projet findProjetById(UUID projetId);
+    List<Projet> findAllProjets();
 }

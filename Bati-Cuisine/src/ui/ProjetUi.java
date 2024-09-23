@@ -7,6 +7,7 @@ import services.implementations.ProjetService;
 import services.interfaces.IProjetService;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Scanner;
 import java.util.UUID;
 
@@ -95,5 +96,13 @@ public class ProjetUi {
         UUID projetId = UUID.fromString(scanner.nextLine());
         Projet projet = projetService.findProjetById(projetId);
         coutTotal(projet);
+    }
+    public void findAllProject(){
+        System.out.println("Les projets existants");
+
+        List<Projet> projets = projetService.findAllProjets();
+        for(Projet projet : projets){
+            System.out.println("Nom du projet :" + projet.getNom());
+        }
     }
 }

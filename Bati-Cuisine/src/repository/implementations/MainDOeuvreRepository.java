@@ -40,7 +40,33 @@ public class MainDOeuvreRepository implements IMainDOeuvreRepository {
             return null;
         }
     }
+    @Override
+    public List<MainDOeuvre> findMainDOeuvresByProjetId(UUID projetId) {
+        String query = "SELECT * FROM maindoeuvres WHERE projetid = ?";
+        List<MainDOeuvre> mainDOeuvres = new ArrayList<>();
 
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setObject(1, projetId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                MainDOeuvre mainDOeuvre = new MainDOeuvre();
+                mainDOeuvre.setNom(rs.getString("nom"));
+                mainDOeuvre.setTauxTVA(rs.getFloat("tauxtva"));
+                mainDOeuvre.setTauxHoraire(rs.getBigDecimal("tauxhoraire"));
+                mainDOeuvre.setHeuresTravail(rs.getFloat("heurestravail"));
+                mainDOeuvre.setProductiviteOuvrier(rs.getFloat("productiviteouvrier"));
+                mainDOeuvres.add(mainDOeuvre);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return mainDOeuvres;
+    }
 
 
 }

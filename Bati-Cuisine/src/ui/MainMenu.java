@@ -36,7 +36,7 @@ public class MainMenu {
                     clientUi.manageClient();
                     break;
                 case 2:
-
+                    projetUi.findAllProject();
                     break;
                 case 3:
                     projetUi.calculerCoutProjet();

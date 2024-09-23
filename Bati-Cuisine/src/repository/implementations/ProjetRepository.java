@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -18,6 +19,8 @@ public class ProjetRepository implements IProjetRepository {
     private final DbFunctions db;
     private final ClientRepository clientRepository = new ClientRepository();
     private final ComposantRepository composantRepository = new ComposantRepository();
+    private final MaterielRepository materielRepository = new MaterielRepository();
+    private final MainDOeuvreRepository mainDOeuvreRepository = new MainDOeuvreRepository();
 
     public ProjetRepository() {
         this.db = DbFunctions.getInstance();
@@ -116,8 +119,14 @@ public class ProjetRepository implements IProjetRepository {
                 Client client = clientRepository.findClientById(clientId);
                 projet.setClient(client);
 
-                List<Composant> composants = composantRepository.findComposantsByProjetId(projetId);
-                projet.getComposants().addAll(composants);
+                List<Materiel> materiels = materielRepository.findMaterielsByProjetId(projetId);
+                for(Materiel materiel : materiels) {
+                    projet.ajouterComposant(materiel);
+                }
+                List<MainDOeuvre> mainDOeuvres = mainDOeuvreRepository.findMainDOeuvresByProjetId(projetId);
+                for(MainDOeuvre mainDOeuvre : mainDOeuvres) {
+                    projet.ajouterComposant(mainDOeuvre);
+                }
 
 
                 return projet;
@@ -126,6 +135,39 @@ public class ProjetRepository implements IProjetRepository {
             e.printStackTrace();
         }
         return null;
+    }
+
+    @Override
+    public List<Projet> findAllProjets() {
+        String query = "SELECT * FROM projets";
+        List<Projet> projets = new ArrayList<>();
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Projet projet = new Projet();
+                projet.setId(UUID.fromString(rs.getString("id")));
+                projet.setNom(rs.getString("nom"));
+                projet.setSurface(rs.getFloat("surface"));
+                projet.setCoutTotal(rs.getBigDecimal("couttotal"));
+                projet.setEtatProjet(EtatProjet.valueOf(rs.getString("etatprojet")));
+                projet.setMargeBeneficiaire(rs.getFloat("margebeneficiaire"));
+                projet.setTva(rs.getFloat("tva"));
+
+                UUID clientId = UUID.fromString(rs.getString("clientid"));
+                Client client = clientRepository.findClientById(clientId);
+                projet.setClient(client);
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return projets;
     }
 
 

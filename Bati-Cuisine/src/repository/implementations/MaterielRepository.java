@@ -43,7 +43,34 @@ public class MaterielRepository implements IMaterielRepository {
         }
     }
 
+    @Override
+    public List<Materiel> findMaterielsByProjetId(UUID projetId) {
+            String query = "SELECT * FROM materiaux WHERE projetid = ?";
+            List<Materiel> materiels = new ArrayList<>();
 
+            try (Connection conn = db.getConnection();
+                 PreparedStatement stmt = conn.prepareStatement(query)) {
+
+                stmt.setObject(1, projetId);
+                ResultSet rs = stmt.executeQuery();
+
+                while (rs.next()) {
+                    Materiel materiel = new Materiel();
+                    materiel.setNom(rs.getString("nom"));
+                    materiel.setTauxTVA(rs.getFloat("tauxtva"));
+                    materiel.setCoutUnitaire(rs.getBigDecimal("coutunitaire"));
+                    materiel.setQuantite(rs.getFloat("quantite"));
+                    materiel.setCoutTransport(rs.getBigDecimal("couttransport"));
+                    materiel.setCoefficientQualite(rs.getFloat("coefficientqualite"));
+                    materiels.add(materiel);
+                }
+
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+            return materiels;
+        }
 
 
 }

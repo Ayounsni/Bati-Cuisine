@@ -50,7 +50,7 @@ public class ComposantRepository implements IComposantRepository {
             while (rs.next()) {
                 Composant composant = new Composant();
                 composant.setNom(rs.getString("nom"));
-                composant.setTauxTVA(rs.getFloat("tva"));
+                composant.setTauxTVA(rs.getFloat("tauxtva"));
                 composant.setTypeComposant(TypeComposant.valueOf(rs.getString("typecomposant")));
                 composants.add(composant);
             }

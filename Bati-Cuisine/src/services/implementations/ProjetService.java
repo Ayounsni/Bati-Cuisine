@@ -65,4 +65,9 @@ public class ProjetService implements IProjetService {
     public Projet findProjetById(UUID projetId) {
         return projetRepository.findProjetById(projetId);
     }
+
+    @Override
+    public List<Projet> findAllProjets() {
+        return projetRepository.findAllProjets();
+    }
 }

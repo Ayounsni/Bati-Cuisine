@@ -3,6 +3,7 @@ package services.interfaces;
 import models.entities.Projet;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 public interface IProjetService {
@@ -15,4 +16,5 @@ public interface IProjetService {
     BigDecimal calculerMargeBenificiaire(Projet projet , BigDecimal coutTotal);
     boolean updateCoutTotal(Projet projet, BigDecimal coutTotal);
     Projet findProjetById(UUID projetId);
+    List<Projet> findAllProjets();
 }
