@@ -19,13 +19,10 @@ public class Projet {
     private float tva;
     private Client client;
     private final List<Composant> composants ;
-    private final List<MainDOeuvre> mainDOeuvres;
-    private final List<Materiel> materiels;
+
 
 
     public Projet() {
-        this.mainDOeuvres = new ArrayList<>();
-        this.materiels = new ArrayList<>();
         this.composants = new ArrayList<>();
     }
 
@@ -38,8 +35,6 @@ public class Projet {
         this.margeBeneficiaire = margeBeneficiaire;
         this.tva = tva;
         this.client = client;
-        this.mainDOeuvres = new ArrayList<>();
-        this.materiels = new ArrayList<>();
         this.composants = new ArrayList<>();
     }
 
@@ -52,8 +47,6 @@ public class Projet {
         this.margeBeneficiaire = 0;
         this.tva = 0;
         this.client = client;
-        this.mainDOeuvres = new ArrayList<>();
-        this.materiels = new ArrayList<>();
         this.composants = new ArrayList<>();
     }
 
@@ -111,9 +104,6 @@ public class Projet {
         this.client = client;
     }
 
-    public List<MainDOeuvre> getMainDOeuvres() {
-        return mainDOeuvres;
-    }
 
     public float getTva(){
         return tva;
@@ -122,23 +112,31 @@ public class Projet {
         this.tva = tva;
     }
 
-    public void ajouterMateriel(Materiel materiel) {
-        this.materiels.add(materiel);
-    }
-
-
-    public List<Materiel> getMateriels() {
-        return materiels;
-    }
-
-    public void ajouterMainDOeuvre(MainDOeuvre mainDOeuvre) {
-        this.mainDOeuvres.add(mainDOeuvre);
-    }
     public List<Composant> getComposants() {
         return composants;
     }
     public void ajouterComposant(Composant composant) {
         this.composants.add(composant);
+    }
+
+    public List<Materiel> getMateriels() {
+        List<Materiel> materiels = new ArrayList<>();
+        for (Composant composant : composants) {
+            if (composant instanceof Materiel) {
+                materiels.add((Materiel) composant);
+            }
+        }
+        return materiels;
+    }
+
+    public List<MainDOeuvre> getMainDOeuvres() {
+        List<MainDOeuvre> mainDOeuvres = new ArrayList<>();
+        for (Composant composant : composants) {
+            if (composant instanceof MainDOeuvre) {
+                mainDOeuvres.add((MainDOeuvre) composant);
+            }
+        }
+        return mainDOeuvres;
     }
 
 }

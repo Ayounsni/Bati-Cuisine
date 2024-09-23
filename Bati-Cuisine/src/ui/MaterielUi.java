@@ -44,7 +44,6 @@ public class MaterielUi {
             scanner.nextLine();
 
             Materiel materiel = new Materiel(nom, 0, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
-            projet.ajouterMateriel(materiel);
             projet.ajouterComposant(materiel);
 
             Materiel addedMateriel = materielService.addMateriel(materiel);

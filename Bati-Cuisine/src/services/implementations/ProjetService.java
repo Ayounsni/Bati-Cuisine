@@ -11,6 +11,7 @@ import services.interfaces.IProjetService;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.UUID;
 
 public class ProjetService implements IProjetService {
 
@@ -58,5 +59,10 @@ public class ProjetService implements IProjetService {
     @Override
     public boolean updateCoutTotal(Projet projet, BigDecimal coutTotal) {
         return projetRepository.updateCoutTotal(projet, coutTotal);
+    }
+
+    @Override
+    public Projet findProjetById(UUID projetId) {
+        return projetRepository.findProjetById(projetId);
     }
 }

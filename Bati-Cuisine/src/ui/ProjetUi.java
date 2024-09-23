@@ -2,24 +2,18 @@ package ui;
 
 
 import models.entities.Client;
-import models.entities.Materiel;
 import models.entities.Projet;
-import services.implementations.MaterielService;
 import services.implementations.ProjetService;
-import services.interfaces.IComposantService;
-import services.interfaces.IMaterielService;
 import services.interfaces.IProjetService;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ProjetUi {
 
     private final Scanner scanner = new Scanner(System.in);
     private final IProjetService projetService = new ProjetService();
-    private final IMaterielService materielService = new MaterielService();
-    private final IComposantService<Materiel> composantService = new MaterielService();
     private final MaterielUi materielUi = new MaterielUi();
     private final MainDOeuvreUi mainDOeuvreUi = new MainDOeuvreUi();
 
@@ -34,7 +28,14 @@ public class ProjetUi {
         if(addProjet != null) {
             materielUi.ajouterMateriaux(projet);
             mainDOeuvreUi.ajouterMainDOeuvre(projet);
-            coutTotal(projet);
+            System.out.println("Souhaitez-vous calculer le cout total de ce projet ? (oui/non) : ");
+            scanner.nextLine();
+            String jaw = scanner.nextLine();
+            if (jaw.equalsIgnoreCase("oui")) {
+                coutTotal(projet);
+                scanner.nextLine();
+            }
+
         }else{
             System.out.println("projet not added!!");
         }
@@ -44,7 +45,6 @@ public class ProjetUi {
         System.out.println("--- Calcul du coût total ---");
 
         System.out.println("Souhaitez-vous appliquer une TVA au projet ? (oui/non) : ");
-        String jawab = scanner.nextLine();
         String rep =scanner.nextLine();
         if (rep.equalsIgnoreCase("oui")) {
             System.out.print("Entrez le pourcentage de TVA (%) : ");
@@ -89,5 +89,11 @@ public class ProjetUi {
         System.out.println("**Coût total final du projet :"+coutTotalAfterMarge+"€");
         projetService.updateCoutTotal(projet,coutTotalAfterMarge);
 
+    }
+    public void calculerCoutProjet(){
+        System.out.print("Entrez l'ID du projet que vous voulez calculer son cout total : ");
+        UUID projetId = UUID.fromString(scanner.nextLine());
+        Projet projet = projetService.findProjetById(projetId);
+        coutTotal(projet);
     }
 }

@@ -12,6 +12,7 @@ public class MainMenu {
     private final DbFunctions db = DbFunctions.getInstance();
 
     private final ClientUi clientUi = new ClientUi();
+    private final ProjetUi projetUi = new ProjetUi();
 
 
     public void showMainMenu() {
@@ -38,7 +39,7 @@ public class MainMenu {
 
                     break;
                 case 3:
-
+                    projetUi.calculerCoutProjet();
                     break;
                 case 4:
 

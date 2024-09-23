@@ -1,17 +1,23 @@
 package repository.implementations;
 
 import db.DbFunctions;
-import models.entities.Projet;
+import models.entities.*;
+import models.enums.EtatProjet;
 import repository.interfaces.IProjetRepository;
 
 import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.List;
+import java.util.UUID;
 
 public class ProjetRepository implements IProjetRepository {
 
     private final DbFunctions db;
+    private final ClientRepository clientRepository = new ClientRepository();
+    private final ComposantRepository composantRepository = new ComposantRepository();
 
     public ProjetRepository() {
         this.db = DbFunctions.getInstance();
@@ -87,5 +93,40 @@ public class ProjetRepository implements IProjetRepository {
             return false;
         }
     }
+    @Override
+    public Projet findProjetById(UUID projetId) {
+        String query = "SELECT * FROM projets WHERE id = ?";
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            stmt.setObject(1, projetId);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Projet projet = new Projet();
+                projet.setId(UUID.fromString(rs.getString("id")));
+                projet.setNom(rs.getString("nom"));
+                projet.setSurface(rs.getFloat("surface"));
+                projet.setCoutTotal(rs.getBigDecimal("couttotal"));
+                projet.setEtatProjet(EtatProjet.valueOf(rs.getString("etatprojet")));
+                projet.setMargeBeneficiaire(rs.getFloat("margebeneficiaire"));
+                projet.setTva(rs.getFloat("tva"));
+
+                UUID clientId = UUID.fromString(rs.getString("clientid"));
+                Client client = clientRepository.findClientById(clientId);
+                projet.setClient(client);
+
+                List<Composant> composants = composantRepository.findComposantsByProjetId(projetId);
+                projet.getComposants().addAll(composants);
+
+
+                return projet;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
