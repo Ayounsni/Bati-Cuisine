@@ -39,4 +39,15 @@ public class ProjetService implements IProjetService {
             composantRepository.updateTva(composant, tva);
         }
     }
+
+    @Override
+    public boolean updateTvaProjet(Projet projet, float tva) {
+        return projetRepository.updateTva(projet, tva);
+    }
+    @Override
+    public BigDecimal calculerCoutApresTva(BigDecimal coutTotal, Projet projet) {
+        BigDecimal tvaDecimal = BigDecimal.valueOf(projet.getTva()).divide(BigDecimal.valueOf(100));
+        BigDecimal montantTva = coutTotal.multiply(tvaDecimal);
+        return coutTotal.add(montantTva);
+    }
 }

@@ -40,10 +40,27 @@ public class ProjetRepository implements IProjetRepository {
     }
     @Override
     public boolean updateMargeBeneficiaire(Projet projet, float margeBeneficiaire) {
+        projet.setMargeBeneficiaire(margeBeneficiaire);
         String sql = "UPDATE projets SET margeBeneficiaire = ? WHERE id = ?";
 
         try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setFloat(1, margeBeneficiaire);
+            statement.setObject(2, projet.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public boolean updateTva(Projet projet, float tva) {
+        projet.setTva(tva);
+        String sql = "UPDATE projets SET tva = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setFloat(1, tva);
             statement.setObject(2, projet.getId());
 
             int rowsUpdated = statement.executeUpdate();

@@ -16,6 +16,7 @@ public class Projet {
     private BigDecimal coutTotal;
     private EtatProjet etatProjet;
     private float margeBeneficiaire;
+    private float tva;
     private Client client;
     private final List<Composant> composants ;
     private final List<MainDOeuvre> mainDOeuvres;
@@ -28,13 +29,14 @@ public class Projet {
         this.composants = new ArrayList<>();
     }
 
-    public Projet(String nom, float surface, BigDecimal coutTotal, EtatProjet etatProjet,float margeBeneficiaire, Client client) {
+    public Projet(String nom, float surface, BigDecimal coutTotal, EtatProjet etatProjet,float margeBeneficiaire,float tva, Client client) {
         this.id = UUID.randomUUID();
         this.nom = nom;
         this.surface = surface;
         this.coutTotal = coutTotal;
         this.etatProjet = etatProjet;
         this.margeBeneficiaire = margeBeneficiaire;
+        this.tva = tva;
         this.client = client;
         this.mainDOeuvres = new ArrayList<>();
         this.materiels = new ArrayList<>();
@@ -47,7 +49,8 @@ public class Projet {
         this.surface = surface;
         this.coutTotal = null;
         this.etatProjet = ENCOURS;
-        this.margeBeneficiaire = 1;
+        this.margeBeneficiaire = 0;
+        this.tva = 0;
         this.client = client;
         this.mainDOeuvres = new ArrayList<>();
         this.materiels = new ArrayList<>();
@@ -112,6 +115,13 @@ public class Projet {
         return mainDOeuvres;
     }
 
+    public float getTva(){
+        return tva;
+    }
+    public void setTva(float tva) {
+        this.tva = tva;
+    }
+
     public void ajouterMateriel(Materiel materiel) {
         this.materiels.add(materiel);
     }
@@ -130,5 +140,6 @@ public class Projet {
     public void ajouterComposant(Composant composant) {
         this.composants.add(composant);
     }
+
 }
 

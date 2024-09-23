@@ -3,8 +3,10 @@ package ui;
 import models.entities.Materiel;
 import models.entities.Projet;
 import services.implementations.MaterielService;
+import services.implementations.ProjetService;
 import services.interfaces.IComposantService;
 import services.interfaces.IMaterielService;
+import services.interfaces.IProjetService;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -14,6 +16,7 @@ public class MaterielUi {
     private final Scanner scanner = new Scanner(System.in);
     private final IMaterielService materielService = new MaterielService();
     private final IComposantService<Materiel> composantService = new MaterielService();
+    private final IProjetService projetService = new ProjetService();
 
     public void ajouterMateriaux(Projet projet) {
         boolean ajouterAutre = true;
@@ -40,7 +43,7 @@ public class MaterielUi {
 
             scanner.nextLine();
 
-            Materiel materiel = new Materiel(nom, 1, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
+            Materiel materiel = new Materiel(nom, 0, projet, coutUnitaire, quantite, coutTransport, coefficientQualite);
             projet.ajouterMateriel(materiel);
             projet.ajouterComposant(materiel);
 
@@ -58,13 +61,17 @@ public class MaterielUi {
         }
     }
 
-    public void listMateriel(Projet projet) {
+    public BigDecimal listMateriel(Projet projet) {
         List<Materiel> materielsDuProjet = projet.getMateriels();
         for (Materiel materiel : materielsDuProjet) {
             System.out.println("-" + materiel.getNom() + ":" + composantService.calculerCoutTotal(materiel) +"€ (quantité : " +
                     materiel.getQuantite() + "m², coût unitaire :" + materiel.getCoutUnitaire() + "€/m², qualité :"+
                     materiel.getCoefficientQualite()+  ", transport :" + materiel.getCoutTransport() + "€)");
         }
-    }
+        BigDecimal total = materielService.calculerTotalMateriel(projet);
+        System.out.println("**Coût total des matériaux avant TVA : " + total+"€**\n");
+        BigDecimal totalAfterTva = projetService.calculerCoutApresTva(total,projet);
+        System.out.println("**Coût total des matériaux avec TVA ("+ projet.getTva()+"%) : " + totalAfterTva +"€**\n");
+    return totalAfterTva;}
 }
 

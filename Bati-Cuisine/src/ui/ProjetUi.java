@@ -33,7 +33,9 @@ public class ProjetUi {
         Projet addProjet =projetService.addProjet(projet);
         if(addProjet != null) {
             materielUi.ajouterMateriaux(projet);
+            coutTotal(projet);
             mainDOeuvreUi.ajouterMainDOeuvre(projet);
+
         }else{
             System.out.println("projet not added!!");
         }
@@ -41,22 +43,28 @@ public class ProjetUi {
     public void coutTotal(Projet projet) {
 
         System.out.println("--- Calcul du coût total ---");
-
-        System.out.print("Souhaitez-vous appliquer une TVA au projet ? (oui/non) : ");
-        String response = scanner.nextLine();
-        if (response.equalsIgnoreCase("oui")) {
+        
+        System.out.println("Souhaitez-vous appliquer une TVA au projet ? (oui/non) : ");
+        String jawab = scanner.nextLine();
+        String rep =scanner.nextLine();
+        if (rep.equalsIgnoreCase("oui")) {
             System.out.print("Entrez le pourcentage de TVA (%) : ");
             BigDecimal tvaPourcentage = scanner.nextBigDecimal();
+            float tva = tvaPourcentage.floatValue();
             projetService.updateTva(projet, tvaPourcentage);
-
+            projetService.updateTvaProjet(projet, tva);
+            scanner.nextLine();
         }
 
-        System.out.print("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (oui/non) : ");
+        // Demande d'application de la marge bénéficiaire
+        System.out.println("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (oui/non) : ");
         String respons = scanner.nextLine();
         if (respons.equalsIgnoreCase("oui")) {
             System.out.print("Entrez le pourcentage de marge bénéficiaire (%) : ");
             float marge = scanner.nextFloat();
-            projetService.updateMargeBeneficiaire(projet,marge);
+            scanner.nextLine();
+
+            projetService.updateMargeBeneficiaire(projet, marge);
         }
 
         System.out.println("Calcul du coût en cours...\n");
@@ -70,15 +78,9 @@ public class ProjetUi {
         System.out.println("--- Détail des Coûts ---");
 
         System.out.println("1. Matériaux :\n");
+         BigDecimal totalMateriel = materielUi.listMateriel(projet);
 
-        List<Materiel> materielsDuProjet = projet.getMateriels();
-        for (Materiel materiel : materielsDuProjet) {
-            System.out.println("-" + materiel.getNom() + ":" + composantService.calculerCoutTotal(materiel) +"€ (quantité : " +
-                    materiel.getQuantite() + "m², coût unitaire :" + materiel.getCoutUnitaire() + "€/m², qualité :"+
-                    materiel.getCoefficientQualite()+  ", transport :" + materiel.getCoutTransport() + "€)");
-        }
-        BigDecimal total = materielService.calculerTotalMateriel(projet);
-        System.out.println("Total de materiels : " + total);
+
 
 
     }
