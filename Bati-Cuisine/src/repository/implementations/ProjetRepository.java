@@ -4,6 +4,7 @@ import db.DbFunctions;
 import models.entities.Projet;
 import repository.interfaces.IProjetRepository;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -61,6 +62,22 @@ public class ProjetRepository implements IProjetRepository {
 
         try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setFloat(1, tva);
+            statement.setObject(2, projet.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    @Override
+    public boolean updateCoutTotal(Projet projet, BigDecimal coutTotal) {
+        projet.setCoutTotal(coutTotal);
+        String sql = "UPDATE projets SET couttotal = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setBigDecimal(1, coutTotal);
             statement.setObject(2, projet.getId());
 
             int rowsUpdated = statement.executeUpdate();

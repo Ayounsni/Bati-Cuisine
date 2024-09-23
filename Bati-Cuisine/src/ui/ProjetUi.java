@@ -33,9 +33,8 @@ public class ProjetUi {
         Projet addProjet =projetService.addProjet(projet);
         if(addProjet != null) {
             materielUi.ajouterMateriaux(projet);
-            coutTotal(projet);
             mainDOeuvreUi.ajouterMainDOeuvre(projet);
-
+            coutTotal(projet);
         }else{
             System.out.println("projet not added!!");
         }
@@ -43,7 +42,7 @@ public class ProjetUi {
     public void coutTotal(Projet projet) {
 
         System.out.println("--- Calcul du coût total ---");
-        
+
         System.out.println("Souhaitez-vous appliquer une TVA au projet ? (oui/non) : ");
         String jawab = scanner.nextLine();
         String rep =scanner.nextLine();
@@ -56,7 +55,6 @@ public class ProjetUi {
             scanner.nextLine();
         }
 
-        // Demande d'application de la marge bénéficiaire
         System.out.println("Souhaitez-vous appliquer une marge bénéficiaire au projet ? (oui/non) : ");
         String respons = scanner.nextLine();
         if (respons.equalsIgnoreCase("oui")) {
@@ -80,8 +78,16 @@ public class ProjetUi {
         System.out.println("1. Matériaux :\n");
          BigDecimal totalMateriel = materielUi.listMateriel(projet);
 
+        System.out.println("2. Main-d'œuvre :\n");
+        BigDecimal totalMainDoeuvre = mainDOeuvreUi.listMainDOeuvre(projet);
 
-
+        BigDecimal coutTotal = totalMateriel.add(totalMainDoeuvre);
+        System.out.println("3. Coût total avant marge :"+coutTotal+"€");
+        BigDecimal margeValue = projetService.calculerMargeBenificiaire(projet,coutTotal);
+        System.out.println("4. Marge bénéficiaire ("+projet.getMargeBeneficiaire() +"%)"+margeValue+"€");
+        BigDecimal coutTotalAfterMarge = coutTotal.add(margeValue);
+        System.out.println("**Coût total final du projet :"+coutTotalAfterMarge+"€");
+        projetService.updateCoutTotal(projet,coutTotalAfterMarge);
 
     }
 }

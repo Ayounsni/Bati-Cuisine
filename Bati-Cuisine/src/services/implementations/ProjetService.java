@@ -50,4 +50,13 @@ public class ProjetService implements IProjetService {
         BigDecimal montantTva = coutTotal.multiply(tvaDecimal);
         return coutTotal.add(montantTva);
     }
+    @Override
+    public BigDecimal calculerMargeBenificiaire(Projet projet , BigDecimal coutTotal) {
+        BigDecimal margeDecimal = BigDecimal.valueOf(projet.getMargeBeneficiaire()).divide(BigDecimal.valueOf(100));
+        return coutTotal.multiply(margeDecimal);}
+
+    @Override
+    public boolean updateCoutTotal(Projet projet, BigDecimal coutTotal) {
+        return projetRepository.updateCoutTotal(projet, coutTotal);
+    }
 }

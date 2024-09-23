@@ -11,4 +11,6 @@ public interface IProjetService {
     void updateTva(Projet projet, BigDecimal tva);
     boolean updateTvaProjet(Projet projet, float tva);
     BigDecimal calculerCoutApresTva(BigDecimal coutTotal, Projet projet);
+    BigDecimal calculerMargeBenificiaire(Projet projet , BigDecimal coutTotal);
+    boolean updateCoutTotal(Projet projet, BigDecimal coutTotal);
 }
