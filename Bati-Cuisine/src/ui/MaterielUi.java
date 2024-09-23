@@ -62,10 +62,6 @@ public class MaterielUi {
     }
 
     public BigDecimal listMateriel(Projet projet) {
-        List<Composant> composants = projet.getComposants();
-        for (Composant composant : composants) {
-           System.out.println("ici"+ composant.getId());
-        }
         List<Materiel> materielsDuProjet = projet.getMateriels();
         for (Materiel materiel : materielsDuProjet) {
             System.out.println("-" + materiel.getNom() + ":" + composantService.calculerCoutTotal(materiel) +"€ (quantité : " +

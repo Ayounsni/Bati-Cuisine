@@ -44,6 +44,7 @@ public class ProjetUi {
     public void coutTotal(Projet projet) {
 
         System.out.println("--- Calcul du coût total ---");
+        if(projet.getCoutTotal() == null){
 
         System.out.println("Souhaitez-vous appliquer une TVA au projet ? (oui/non) : ");
         String rep =scanner.nextLine();
@@ -64,6 +65,7 @@ public class ProjetUi {
             scanner.nextLine();
 
             projetService.updateMargeBeneficiaire(projet, marge);
+        }
         }
 
         System.out.println("Calcul du coût en cours...\n");
@@ -98,11 +100,21 @@ public class ProjetUi {
         coutTotal(projet);
     }
     public void findAllProject(){
-        System.out.println("Les projets existants");
+        System.out.println("---Les projets existants---");
 
         List<Projet> projets = projetService.findAllProjets();
         for(Projet projet : projets){
+            System.out.println("ID du projet:" + projet.getId());
             System.out.println("Nom du projet :" + projet.getNom());
+            System.out.println("Nom du client associe a ce projet :" + projet.getClient().getNom());
+            System.out.println("Adresse du chantier :" + projet.getClient().getAdresse());
+            System.out.println("Surface :" + projet.getSurface() + "m²");
+            if(projet.getCoutTotal() == null){
+                System.out.println("Cout total : Pas encore calculer");
+            }else {
+                System.out.println("Cout total : " + projet.getCoutTotal());
+            }
+            System.out.println("------------------------------------");
         }
     }
 }

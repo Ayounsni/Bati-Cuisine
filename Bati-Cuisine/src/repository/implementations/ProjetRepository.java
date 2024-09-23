@@ -160,6 +160,7 @@ public class ProjetRepository implements IProjetRepository {
                 UUID clientId = UUID.fromString(rs.getString("clientid"));
                 Client client = clientRepository.findClientById(clientId);
                 projet.setClient(client);
+                projets.add(projet);
 
 
             }
