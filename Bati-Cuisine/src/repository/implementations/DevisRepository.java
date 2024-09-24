@@ -1,10 +1,8 @@
 package repository.implementations;
 
 import db.DbFunctions;
-import models.entities.Client;
 import models.entities.Devis;
 import models.entities.Projet;
-import models.enums.EtatProjet;
 import repository.interfaces.IDevisRepository;
 
 import java.sql.Connection;
@@ -12,9 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 public class DevisRepository implements IDevisRepository {
 
@@ -82,7 +78,8 @@ public class DevisRepository implements IDevisRepository {
             return null;
         }
     }
-
+    private final Map<UUID, Projet> projetCache = new HashMap<>();
+    @Override
     public Devis getDevisByProjetId(UUID projetId) {
         String query = "SELECT id, montantestime, dateemission, datevalidite, accepte, projetid "
                 + "FROM public.devis WHERE projetid = ?";
@@ -102,7 +99,13 @@ public class DevisRepository implements IDevisRepository {
                 devis.setDateValidite(resultSet.getObject("datevalidite", LocalDate.class));
                 devis.setAccepte(resultSet.getBoolean("accepte"));
 
-                Projet projet =projetRepository.findProjetById(projetId);
+                Projet projet = projetCache.get(projetId);
+
+                if (projet == null) {
+                    projet = projetRepository.findProjetById(projetId);
+                    projetCache.put(projetId, projet);
+                }
+
                 devis.setProjet(projet);
 
                 return devis;

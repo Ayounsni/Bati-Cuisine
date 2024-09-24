@@ -11,14 +11,15 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ProjetRepository implements IProjetRepository {
 
     private final DbFunctions db;
     private final ClientRepository clientRepository = new ClientRepository();
-    private final ComposantRepository composantRepository = new ComposantRepository();
     private final MaterielRepository materielRepository = new MaterielRepository();
     private final MainDOeuvreRepository mainDOeuvreRepository = new MainDOeuvreRepository();
 
@@ -168,7 +169,10 @@ public class ProjetRepository implements IProjetRepository {
             e.printStackTrace();
         }
 
-        return projets;
+        return projets.stream()
+                .sorted(Comparator.comparing(Projet::getNom))
+//                .sorted((p1, p2) -> p1.getNom().compareTo(p2.getNom()))
+                .collect(Collectors.toList());
     }
 
 
