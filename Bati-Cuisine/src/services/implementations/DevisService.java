@@ -5,6 +5,7 @@ import repository.implementations.DevisRepository;
 import repository.interfaces.IDevisRepository;
 import services.interfaces.IDevisService;
 
+import java.util.List;
 import java.util.UUID;
 
 public class DevisService implements IDevisService {
@@ -28,5 +29,10 @@ public class DevisService implements IDevisService {
     @Override
     public Devis getDevisByProjetId(UUID projetId) {
         return devisRepository.getDevisByProjetId(projetId);
+    }
+
+    @Override
+    public List<Devis> findAllDevis() {
+        return devisRepository.findAllDevis();
     }
 }

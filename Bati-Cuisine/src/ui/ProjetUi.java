@@ -17,6 +17,7 @@ public class ProjetUi {
     private final IProjetService projetService = new ProjetService();
     private final MaterielUi materielUi = new MaterielUi();
     private final MainDOeuvreUi mainDOeuvreUi = new MainDOeuvreUi();
+    private final DevisUi devisUi = new DevisUi();
 
     public void addProjet(Client client) {
         System.out.print("Entrez le nom du projet : ");
@@ -98,6 +99,12 @@ public class ProjetUi {
         UUID projetId = UUID.fromString(scanner.nextLine());
         Projet projet = projetService.findProjetById(projetId);
         coutTotal(projet);
+        System.out.println("Souhaitez-vous enregistrer le devis ? (oui/non) : ");
+        String enregistre =scanner.nextLine();
+        if (enregistre.equalsIgnoreCase("oui")) {
+            devisUi.enregistreDevis(projet);
+        }
+
     }
     public void findAllProject(){
         System.out.println("---Les projets existants---");

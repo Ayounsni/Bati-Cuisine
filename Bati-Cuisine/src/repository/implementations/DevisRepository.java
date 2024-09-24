@@ -4,6 +4,7 @@ import db.DbFunctions;
 import models.entities.Client;
 import models.entities.Devis;
 import models.entities.Projet;
+import models.enums.EtatProjet;
 import repository.interfaces.IDevisRepository;
 
 import java.sql.Connection;
@@ -11,6 +12,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class DevisRepository implements IDevisRepository {
@@ -111,5 +114,36 @@ public class DevisRepository implements IDevisRepository {
             e.printStackTrace();
             return null;
         }
+    }
+    @Override
+    public List<Devis> findAllDevis() {
+        String query = "SELECT * FROM devis";
+        List<Devis> allDevis = new ArrayList<>();
+
+        try (Connection conn = db.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(query)) {
+
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Devis devis = new Devis();
+                devis.setId(UUID.fromString(rs.getString("id")));
+                devis.setMontantEstime(rs.getBigDecimal("montantestime"));
+                devis.setDateEmission(rs.getObject("dateemission", LocalDate.class));
+                devis.setDateValidite(rs.getObject("datevalidite", LocalDate.class));
+                devis.setAccepte(rs.getBoolean("accepte"));
+                UUID projetId = UUID.fromString(rs.getString("projetId"));
+
+                Projet projet =projetRepository.findProjetById(projetId);
+                devis.setProjet(projet);
+                allDevis.add(devis);
+
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return allDevis;
     }
 }
