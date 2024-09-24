@@ -35,4 +35,10 @@ public class DevisService implements IDevisService {
     public List<Devis> findAllDevis() {
         return devisRepository.findAllDevis();
     }
+
+    @Override
+    public boolean updateStatus(Devis devis, boolean status) {
+        return devisRepository.updateStatus(devis, status);
+    }
+
 }

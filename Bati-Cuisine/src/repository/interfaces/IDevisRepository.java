@@ -10,4 +10,5 @@ public interface IDevisRepository {
     Devis getById(UUID id);
     Devis getDevisByProjetId(UUID projetId);
     List<Devis> findAllDevis();
+    boolean updateStatus(Devis devis, boolean status);
 }

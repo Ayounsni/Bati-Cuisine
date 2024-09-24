@@ -24,7 +24,7 @@ public class DevisUi {
             System.out.println("\nMenu:");
             System.out.println("1. Enregistrer un devis");
             System.out.println("2. Afficher les devis");
-            System.out.println("3. Refuser un devis autant que client");
+            System.out.println("3. Refuser/Accepter un devis autant que client");
             System.out.println("4. Quitter");
             System.out.print("Choisissez une option : ");
             int choice = scanner.nextInt();
@@ -38,7 +38,7 @@ public class DevisUi {
                     findAllDevis();
                     break;
                 case 3:
-
+                    accepterDevis();
                     break;
                 case 4:
                     running = false;
@@ -101,5 +101,20 @@ public class DevisUi {
             System.out.println("--------------------------------");
 
         }
+    }
+    public void accepterDevis(){
+        System.out.print("Entrez l'ID du devis que vous voulez accepter ou refuser : ");
+        UUID devisId = UUID.fromString(scanner.nextLine());
+        Devis devis = devisService.getById(devisId);
+        System.out.print("Voulez-vous accepter ou refuser ce devis (accepter/refuser) : ");
+        String status = scanner.nextLine();
+        if(status.equals("accepter")){
+            devisService.updateStatus(devis,true);
+            System.out.println("Le devis est accepter avec succes");
+        }else{
+            devisService.updateStatus(devis,false);
+            System.out.println("Le devis est refuse");
+        }
+
     }
 }

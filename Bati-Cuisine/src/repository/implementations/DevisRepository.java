@@ -146,4 +146,20 @@ public class DevisRepository implements IDevisRepository {
 
         return allDevis;
     }
+    @Override
+    public boolean updateStatus(Devis devis, boolean status) {
+        devis.setAccepte(status);
+        String sql = "UPDATE devis SET accepte = ? WHERE id = ?";
+
+        try (Connection conn = db.getConnection() ;PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setBoolean(1,status);
+            statement.setObject(2, devis.getId());
+
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
