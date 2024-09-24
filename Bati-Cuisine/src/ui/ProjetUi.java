@@ -89,9 +89,18 @@ public class ProjetUi {
         System.out.println("3. Coût total avant marge :"+coutTotal+"€");
         BigDecimal margeValue = projetService.calculerMargeBenificiaire(projet,coutTotal);
         System.out.println("4. Marge bénéficiaire ("+projet.getMargeBeneficiaire() +"%)"+margeValue+"€");
+        if(projet.getClient().isEstProfessionnel()){
+            BigDecimal coutTotalAfterMarge = coutTotal.add(margeValue);
+            System.out.println("**Coût total:"+coutTotalAfterMarge+"€");
+            System.out.println("Taux de remise :"+projet.getClient().getRemise() +"%");
+            BigDecimal coutTotalAfterRemise = projetService.calculerCoutApresRemise(projet,coutTotalAfterMarge);
+            System.out.println("**Coût total du projet apres la remise:"+coutTotalAfterRemise+"€");
+            projetService.updateCoutTotal(projet,coutTotalAfterRemise);
+        }else{
         BigDecimal coutTotalAfterMarge = coutTotal.add(margeValue);
         System.out.println("**Coût total final du projet :"+coutTotalAfterMarge+"€");
         projetService.updateCoutTotal(projet,coutTotalAfterMarge);
+        }
 
     }
     public void calculerCoutProjet(){

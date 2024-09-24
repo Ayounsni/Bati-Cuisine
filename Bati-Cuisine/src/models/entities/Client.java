@@ -11,18 +11,20 @@ public class Client {
     private String telephone;
     private boolean estProfessionnel;
     private final List<Projet> projets;
+    private float remise;
 
     public Client() {
         this.projets = new ArrayList<>();
     }
 
-    public Client( String nom, String adresse, String telephone, boolean estProfessionnel) {
+    public Client( String nom, String adresse, String telephone, boolean estProfessionnel, float remise) {
         this.id = UUID.randomUUID();
         this.nom = nom;
         this.adresse = adresse;
         this.telephone = telephone;
         this.estProfessionnel = estProfessionnel;
         this.projets = new ArrayList<>();
+        this.remise = remise;
     }
 
     public UUID getId() {
@@ -66,6 +68,12 @@ public class Client {
     }
     public List<Projet> getProjets() {
         return projets;
+    }
+    public float getRemise(){
+        return remise;
+    }
+    public void setRemise(float remise) {
+        this.remise = remise;
     }
 }
 

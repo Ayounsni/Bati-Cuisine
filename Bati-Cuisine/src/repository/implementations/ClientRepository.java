@@ -19,7 +19,7 @@ public class ClientRepository implements IClientRepository {
     }
     @Override
     public Client addClient(Client client) {
-        String query = "INSERT INTO clients(id, nom, adresse, telephone, estprofessionnel)VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO clients(id, nom, adresse, telephone, estprofessionnel, remise)VALUES (?, ?, ?, ?, ?,?)";
         try(Connection conn = db.getConnection()) {
             PreparedStatement statement = conn.prepareStatement(query);
             statement.setObject(1, client.getId());
@@ -27,6 +27,7 @@ public class ClientRepository implements IClientRepository {
             statement.setString(3, client.getAdresse());
             statement.setString(4, client.getTelephone());
             statement.setBoolean(5,client.isEstProfessionnel());
+            statement.setFloat(6,client.getRemise());
             statement.executeUpdate();
         return client;
         } catch (SQLException e) {
@@ -51,6 +52,7 @@ public class ClientRepository implements IClientRepository {
                 client.setAdresse(rs.getString("adresse"));
                 client.setTelephone(rs.getString("telephone"));
                 client.setEstProfessionnel(rs.getBoolean("estProfessionnel"));
+                client.setRemise(rs.getFloat("remise"));
                 return client;
             }
 
@@ -76,6 +78,7 @@ public class ClientRepository implements IClientRepository {
                 client.setAdresse(rs.getString("adresse"));
                 client.setTelephone(rs.getString("telephone"));
                 client.setEstProfessionnel(rs.getBoolean("estProfessionnel"));
+                client.setRemise(rs.getFloat("remise"));
                 return client;
             }
 

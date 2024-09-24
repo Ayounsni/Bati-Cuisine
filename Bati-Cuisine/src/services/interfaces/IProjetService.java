@@ -17,4 +17,5 @@ public interface IProjetService {
     boolean updateCoutTotal(Projet projet, BigDecimal coutTotal);
     Projet findProjetById(UUID projetId);
     List<Projet> findAllProjets();
+    BigDecimal calculerCoutApresRemise(Projet projet, BigDecimal coutTotal);
 }

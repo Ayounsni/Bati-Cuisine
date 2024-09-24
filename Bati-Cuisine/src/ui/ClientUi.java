@@ -73,19 +73,37 @@ public class ClientUi {
         System.out.print("Est-ce un client professionnel ? (true/false) : ");
         boolean estProfessionnel = scanner.nextBoolean();
         scanner.nextLine();
-
-        Client client = new Client(nom, adresse, telephone, estProfessionnel);
-
-        Client addedClient = clientService.addClient(client);
-
-        if (addedClient != null) {
-            System.out.println("Client ajouté avec succès !");
-            System.out.println("Nom : " + addedClient.getNom());
-            System.out.println("Adresse : " + addedClient.getAdresse());
-            System.out.println("Numéro de téléphone : " + addedClient.getTelephone());
-        } else {
-            System.out.println("Erreur lors de l'ajout du client.");
+        if (estProfessionnel) {
+            System.out.print("Entrez le montant de remise en (%) : ");
+            float remise = scanner.nextFloat();
+            Client client = new Client(nom, adresse, telephone, true, remise);
+            Client addedClient = clientService.addClient(client);
+            if (addedClient != null) {
+                System.out.println("Client ajouté avec succès !");
+                System.out.println("Nom : " + addedClient.getNom());
+                System.out.println("Adresse : " + addedClient.getAdresse());
+                System.out.println("Numéro de téléphone : " + addedClient.getTelephone());
+            } else {
+                System.out.println("Erreur lors de l'ajout du client.");
+            }
+        }else {
+            Client client = new Client(nom, adresse, telephone, false,0);
+            Client addedClient = clientService.addClient(client);
+            if (addedClient != null) {
+                System.out.println("Client ajouté avec succès !");
+                System.out.println("Nom : " + addedClient.getNom());
+                System.out.println("Adresse : " + addedClient.getAdresse());
+                System.out.println("Numéro de téléphone : " + addedClient.getTelephone());
+            } else {
+                System.out.println("Erreur lors de l'ajout du client.");
+            }
         }
+
+
+
+
+
+
     }
 }
 

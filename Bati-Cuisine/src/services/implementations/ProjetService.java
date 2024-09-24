@@ -10,6 +10,7 @@ import repository.interfaces.IProjetRepository;
 import services.interfaces.IProjetService;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,5 +70,13 @@ public class ProjetService implements IProjetService {
     @Override
     public List<Projet> findAllProjets() {
         return projetRepository.findAllProjets();
+    }
+    @Override
+    public BigDecimal calculerCoutApresRemise(Projet projet, BigDecimal coutTotal) {
+        float remise = projet.getClient().getRemise();
+
+        BigDecimal montantRemise = coutTotal.multiply(BigDecimal.valueOf(remise)).divide(BigDecimal.valueOf(100), RoundingMode.HALF_UP);
+
+        return coutTotal.subtract(montantRemise);
     }
 }
