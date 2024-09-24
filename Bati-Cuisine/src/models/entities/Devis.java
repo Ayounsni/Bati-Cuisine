@@ -14,12 +14,12 @@ public class Devis {
 
     public Devis() {}
 
-    public Devis(UUID id, BigDecimal montantEstime, LocalDate dateEmission, LocalDate dateValidite, boolean accepte, Projet projet) {
-        this.id = id;
+    public Devis( BigDecimal montantEstime, LocalDate dateEmission, LocalDate dateValidite, Projet projet) {
+        this.id = UUID.randomUUID();
         this.montantEstime = montantEstime;
         this.dateEmission = dateEmission;
         this.dateValidite = dateValidite;
-        this.accepte = accepte;
+        this.accepte = true;
         this.projet = projet;
     }
 

@@ -14,4 +14,5 @@ public interface IProjetRepository {
     boolean updateCoutTotal(Projet projet, BigDecimal coutTotal);
     Projet findProjetById(UUID projetId);
     List<Projet> findAllProjets();
+
 }

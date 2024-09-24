@@ -13,6 +13,7 @@ public class MainMenu {
 
     private final ClientUi clientUi = new ClientUi();
     private final ProjetUi projetUi = new ProjetUi();
+    private final DevisUi devisUi = new DevisUi();
 
 
     public void showMainMenu() {
@@ -24,7 +25,8 @@ public class MainMenu {
             System.out.println("    1. Créer un nouveau projet");
             System.out.println("    2. Afficher les projets existants");
             System.out.println("    3. Calculer le coût d'un projet");
-            System.out.println("    4. Quitter");
+            System.out.println("    4. Gestion du devis");
+            System.out.println("    5. Quitter");
 
             System.out.print("Choisissez une option :");
             int mainChoice = scanner.nextInt();
@@ -42,15 +44,9 @@ public class MainMenu {
                     projetUi.calculerCoutProjet();
                     break;
                 case 4:
-
+                    devisUi.showMenu();
                     break;
                 case 5:
-
-                    break;
-                case 6:
-
-                    break;
-                case 7:
                     running = false;
                     System.out.println("Quitter le système.");
                     break;

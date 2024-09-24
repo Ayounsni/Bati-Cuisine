@@ -1,6 +1,6 @@
 package ui;
 
-import models.entities.Composant;
+
 import models.entities.Materiel;
 import models.entities.Projet;
 import services.implementations.MaterielService;
