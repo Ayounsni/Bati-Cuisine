@@ -6,6 +6,7 @@ import services.implementations.DevisService;
 import services.implementations.ProjetService;
 import services.interfaces.IDevisService;
 import services.interfaces.IProjetService;
+import utils.InputValidator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -68,9 +69,25 @@ public class DevisUi {
     public void enregistreDevis(Projet projet){
         System.out.println("--Enregistrer un devis --");
         System.out.print("Entrez la dure de validation du devis (jours) : ");
-        int dure = scanner.nextInt();
-        scanner.nextLine();
-        Devis newDevis = new Devis(projet.getCoutTotal(), LocalDate.now(),LocalDate.now().plusDays(dure),projet);
+        int duree;
+        do {
+            System.out.print("Entrez la durée (en jours) : ");
+
+            while (!scanner.hasNextInt()) {
+                System.out.println("Entrée invalide. Veuillez entrer un entier positif.");
+                scanner.next();
+            }
+
+            duree = scanner.nextInt();
+            scanner.nextLine();
+
+            if (!InputValidator.validateDuree(duree)) {
+                System.out.println("La durée doit être un entier positif.");
+            }
+
+        } while (!InputValidator.validateDuree(duree));
+
+        Devis newDevis = new Devis(projet.getCoutTotal(), LocalDate.now(),LocalDate.now().plusDays(duree),projet);
         devisService.addDevis(newDevis);
         System.out.println("Devis enregistrée avec succés");
         System.out.println("Devis du projet: "+newDevis.getProjet().getNom());
@@ -106,8 +123,14 @@ public class DevisUi {
         System.out.print("Entrez l'ID du devis que vous voulez accepter ou refuser : ");
         UUID devisId = UUID.fromString(scanner.nextLine());
         Devis devis = devisService.getById(devisId);
-        System.out.print("Voulez-vous accepter ou refuser ce devis (accepter/refuser) : ");
-        String status = scanner.nextLine();
+        String status;
+        do {
+            System.out.print("Voulez-vous accepter ou refuser ce devis (accepter/refuser) : ");
+             status = scanner.nextLine();
+             if(!InputValidator.validateStatus(status)){
+                 System.out.println("Réponse invalide. Veuillez entrer 'accepter' ou 'refuser'.");
+             }
+        }while (!InputValidator.validateStatus(status));
         if(status.equals("accepter")){
             devisService.updateStatus(devis,true);
             System.out.println("Le devis est accepter avec succes");

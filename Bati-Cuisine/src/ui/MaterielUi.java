@@ -8,6 +8,7 @@ import services.implementations.ProjetService;
 import services.interfaces.IComposantService;
 import services.interfaces.IMaterielService;
 import services.interfaces.IProjetService;
+import utils.InputValidator;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -25,8 +26,16 @@ public class MaterielUi {
         while (ajouterAutre) {
             System.out.println("--- Ajout des matériaux ---");
 
-            System.out.print("Entrez le nom du matériau : ");
-            String nom = scanner.nextLine();
+            String nom;
+            do {
+                System.out.print("Entrez le nom du matériau : ");
+                 nom = scanner.nextLine();
+                 if(!InputValidator.validateNotEmpty(nom)){
+                     System.out.println("Veuillez remlpir ce champs ");
+                 }
+            }while (!InputValidator.validateNotEmpty(nom));
+
+
 
             System.out.print("Entrez la quantité de ce matériau (ex : m² ou litres) : ");
             float quantite = scanner.nextFloat();
